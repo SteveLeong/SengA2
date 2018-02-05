@@ -8,7 +8,7 @@ function nChars(txt){
 //
 function getStats(txt) {
     return {
-        nChars: nChars(),
+        nChars: nChars(txt),
         nWords: 22,
         nLines: 10,
         nNonEmptyLines: 22,
