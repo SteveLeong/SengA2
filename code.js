@@ -4,7 +4,7 @@
 function getStats(txt) {
     
   let words = arrayFilter(txt.split(/\W+/));
-  let lines = arrayFilter(txt.split(/\n+/));
+  let lines = txt.split(/\n+/);
   let nNElines = arrayFilter(txt.split(/\W+|\n/));
   return {
       nChars: txt.length,
