@@ -5,7 +5,7 @@
 function getStats(txt) {
     return {
         nChars: txt.length,
-        nWords: txt.split(/\W+/).length, //Split at all non-word characters
+        nWords: txt.split(/\W+/).filter(function(e){return e}).length, //Split at all non-word characters (including repeating non-word characters)
         nLines: 10,
         nNonEmptyLines: 22,
         averageWordLength: 3.3,
