@@ -22,7 +22,7 @@ function getStats(txt) {
 
 // Removes all empty strings from an array
 function arrayFilter(array){
-  return array.filter(function(e){return e})
+    return array.filter(function(e){if(e === " "){return false}return e})
 }
 
 function averageLength(words){
