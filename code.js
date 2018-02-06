@@ -8,7 +8,7 @@ function getStats(txt) {
         // Split at all non-word characters (including repeating non-word characters)
         // and remove all empty strings
         nWords: txt.split(/\W+/).filter(function(e){return e}).length, 
-        nLines: txt.split(/\n/),
+        nLines: txt.split(/\n/).length,
         nNonEmptyLines: 22,
         averageWordLength: 3.3,
         maxLineLength: 33,
