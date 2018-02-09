@@ -5,7 +5,7 @@ function getStats(txt) {
 	
 	let words = arrayFilter(txt.split(/\W+/));
 	let lines = txt.split(/\n/);
-	let nNElines = arrayFilter(txt.split(/\n+/));
+	let nNElines = arrayFilter(lines);
 	let lowerCase = toLowerWithoutRep(words);
 	return {
 		nChars: txt.length,
