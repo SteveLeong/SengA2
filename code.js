@@ -20,7 +20,7 @@ function getStats(txt) {
 	};
 }
 
-// Calculates the Average word length
+// Calculates the average word length
 function averageLength(words){
 	let num = words.length;
 	let sum = 0;
@@ -75,8 +75,8 @@ function findMostFreq(words){
 	let lower = toLower(words);
 	lower.sort();
 	
-	var dict = {};
-	// put all words and frequencies in a dict
+	let dict = {};
+	// put all words and corresponding frequencies in a dictionary
 	for(let word of lower){
 	  	if(dict.hasOwnProperty(word)){
 			dict[word] += 1;
@@ -84,8 +84,6 @@ function findMostFreq(words){
 			dict[word] = 1;
 	  	}
 	}
-
-	
 	
 	// put the dictionary in an array of (word, freq)
 	let toSort = [];
@@ -96,6 +94,7 @@ function findMostFreq(words){
 	toSort.sort(function(a, b) {
 	  	return b[1] - a[1] || a[0].localeCompare(b[0]);;
 	});
+	
 	// trim down to top 10
 	let top10 = toSort.slice(0, 10);
 	// change format
