@@ -23,6 +23,8 @@ function getStats(txt) {
 
 // Removes all empty strings from an array
 function arrayFilter(array){
+	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trim
+	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
 	return array.filter(function(e){if(!e.trim()){return false}return e})
 }
 
@@ -47,6 +49,9 @@ function maxLine(lines){
 
 function checkPalin(words){
 	let palindromes = [];
+	// split each word into its characters
+	// reverse the order of the characters
+	// join them back, if the word stayed the same then it is a palindrome
 	for(let w of words){
 		if( w.length > 2 && w === w.split("").reverse().join("")){
 			palindromes.push(w);
@@ -56,60 +61,88 @@ function checkPalin(words){
 }
 
 function findLongest(words){
-// sort by longest words
-// function calculates b length - a length and sorts the array by the result
-// https://www.w3schools.com/jsref/jsref_sort.asp
-	words.sort(function(a,b){
-		return b.length - a.length
-	})
-
-	longWords = words.slice(0,10);  // get the top 10 longest words
-
-	return longWords
-}
+		// sort by longest words
+		// function calculates b length - a length and sorts the array by the result
+		// https://www.w3schools.com/jsref/jsref_sort.asp
+		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
+		words.sort(function(a,b){
+			return b.length - a.length || a.localeCompare(b);
+		})
+		
+		longWords = words.slice(0,10);  // get the top 10 longest words
+		
+		return longWords
+	}
 
 function findMostFreq(words){
-	var dictionary = {};
-	// put all words and frequencies in a dictionary
-	for(let word of words){
-  		let low = word.toLowerCase();
-  		if(dictionary.hasOwnProperty(low)){
-			dictionary[low] += 1;
-  		}else{
-		dictionary[low] = 1;
- 	 	}
+	let lower = toLower(words);
+	lower.sort();
+	
+	var dict = {};
+	// put all words and frequencies in a dict
+	for(let word of lower){
+	  	if(dict.hasOwnProperty(word)){
+			dict[word] += 1;
+	  	}else{
+			dict[word] = 1;
+	  	}
 	}
-	// trim down dictionary to top 10
+
+	// trim down dict to top 10
 	let smallest;
-	while(Object.keys(dictionary).length > 10){
-  		let smallFreq = 10000;
-  		for(var item in dictionary){
-			if(dictionary[item] < smallFreq){
-		 	smallFreq = dictionary[item];
-	  		smallest = item;
+	let smallFreq;
+	while(Object.keys(dict).length > 10){
+	  	smallFreq = 10000;
+	  	for(var item in dict){
+			if(dict[item] < smallFreq){
+		  	smallFreq = dict[item];
+		  	smallest = item;
 			}
-  		}
-  		delete dictionary[smallest]
+	  	}
+		delete dict[smallest]
 	}
-	// put dictionary into array with word(frequency)
+	// put the dictionary in an array of (word, freq)
+	let toSort = [];
+	for(var word in dict){
+	  	toSort.push([word, dict[word]]);
+	}
+	// sort by frequency
+	toSort.sort(function(a, b) {
+	  	return b[1] - a[1];
+	});
+	
+	// change format
 	let freq = [];
 	let string;
-	for(var obj in dictionary){
-	 	string = obj + "(" + dictionary[obj] + ")"
-  		freq.push(string);
+	for(var item of toSort){
+	  	string = item[0] + "(" + item[1] + ")"
+	  	freq.push(string);
 	}
+  
 	return freq
-}
-
-function toLowerWithoutRep(array){
+  }
+  
+  
+  function toLowerWithoutRep(array){
 	let lowerCase = []
 	for(let w of array){
-		// convert word to lower case characters
-  		let lowWord = w.toLowerCase();
-  		// if the word is not in the array add it
-  		if(lowerCase.indexOf(lowWord) === -1){
+	  // convert word to lower case characters
+	  let lowWord = w.toLowerCase();
+	  // if the word is not in the array add it
+	  if(lowerCase.indexOf(lowWord) === -1){
 		lowerCase.push(lowWord)
-  		}
+	  }
 	}
 	return lowerCase;
-}
+  }
+  
+  function toLower(array){
+	let lowerCase = []
+	for(let w of array){
+	  // convert word to lower case characters
+	  let lowWord = w.toLowerCase();
+	  lowerCase.push(lowWord)
+  
+	}
+	return lowerCase;
+  }
