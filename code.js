@@ -9,7 +9,6 @@ function getStats(txt) {
 	let lowerCase = toLowerWithoutRep(words);
 	return {
 		nChars: txt.length,
-		// Split at all non-word characters (including repeating non-word characters)
 		nWords: words.length, 
 		nLines: lines.length,
 		nNonEmptyLines: nNElines.length,
@@ -21,13 +20,7 @@ function getStats(txt) {
 	};
 }
 
-// Removes all empty strings from an array
-function arrayFilter(array){
-	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trim
-	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
-	return array.filter(function(e){if(!e.trim()){return false}return e})
-}
-
+// Calculates the Average word length
 function averageLength(words){
 	let num = words.length;
 	let sum = 0;
@@ -37,6 +30,7 @@ function averageLength(words){
 	return (sum/num);
 }
 
+// Find the length of the longest line
 function maxLine(lines){
 	let max = 0;
 	for(let line of lines){
@@ -47,6 +41,7 @@ function maxLine(lines){
 	return max;
 }
 
+// Finds the palindromes in the provided text
 function checkPalin(words){
 	let palindromes = [];
 	// split each word into its characters
@@ -60,20 +55,22 @@ function checkPalin(words){
 	return palindromes;
 }
 
+// Finds the 10 longest words in the provided text
 function findLongest(words){
-		// sort by longest words
-		// function calculates b length - a length and sorts the array by the result
-		// https://www.w3schools.com/jsref/jsref_sort.asp
-		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
-		words.sort(function(a,b){
-			return b.length - a.length || a.localeCompare(b);
-		})
-		
-		longWords = words.slice(0,10);  // get the top 10 longest words
-		
-		return longWords
-	}
+	// sort by longest words
+	// function calculates b length - a length and sorts the array by the result
+	// https://www.w3schools.com/jsref/jsref_sort.asp
+	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
+	words.sort(function(a,b){
+		return b.length - a.length || a.localeCompare(b);
+	})
+	
+	longWords = words.slice(0,10);  // get the top 10 longest words
+	
+	return longWords
+}
 
+// Finds the 10 most frequent words in the provided text
 function findMostFreq(words){
 	let lower = toLower(words);
 	lower.sort();
@@ -88,61 +85,59 @@ function findMostFreq(words){
 	  	}
 	}
 
-	// trim down dict to top 10
-	let smallest;
-	let smallFreq;
-	while(Object.keys(dict).length > 10){
-	  	smallFreq = 10000;
-	  	for(var item in dict){
-			if(dict[item] < smallFreq){
-		  	smallFreq = dict[item];
-		  	smallest = item;
-			}
-	  	}
-		delete dict[smallest]
-	}
+	
+	
 	// put the dictionary in an array of (word, freq)
 	let toSort = [];
 	for(var word in dict){
 	  	toSort.push([word, dict[word]]);
 	}
-	// sort by frequency
+	// sort by frequency and alphabetically
 	toSort.sort(function(a, b) {
-	  	return b[1] - a[1];
+	  	return b[1] - a[1] || a[0].localeCompare(b[0]);;
 	});
-	
+	// trim down to top 10
+	let top10 = toSort.slice(0, 10);
 	// change format
 	let freq = [];
 	let string;
-	for(var item of toSort){
+	for(var item of top10){
 	  	string = item[0] + "(" + item[1] + ")"
 	  	freq.push(string);
 	}
   
 	return freq
-  }
+}
   
-  
-  function toLowerWithoutRep(array){
+// Converts an array to lower case, removing any repeating words
+function toLowerWithoutRep(array){
 	let lowerCase = []
 	for(let w of array){
-	  // convert word to lower case characters
-	  let lowWord = w.toLowerCase();
-	  // if the word is not in the array add it
-	  if(lowerCase.indexOf(lowWord) === -1){
+		// convert word to lower case characters
+		let lowWord = w.toLowerCase();
+		// if the word is not in the array add it
+		if(lowerCase.indexOf(lowWord) === -1){
+			lowerCase.push(lowWord)
+		}
+	}
+	return lowerCase;
+}
+
+// Converts an array to lower case
+function toLower(array){
+	let lowerCase = []
+	for(let w of array){
+		// convert word to lower case characters
+		let lowWord = w.toLowerCase();
 		lowerCase.push(lowWord)
-	  }
-	}
-	return lowerCase;
-  }
-  
-  function toLower(array){
-	let lowerCase = []
-	for(let w of array){
-	  // convert word to lower case characters
-	  let lowWord = w.toLowerCase();
-	  lowerCase.push(lowWord)
   
 	}
 	return lowerCase;
-  }
+}
+
+// Removes all empty strings from an array
+function arrayFilter(array){
+	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trim
+	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
+	return array.filter(function(e){if(!e.trim()){return false}return e})
+}
